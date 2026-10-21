@@ -1,0 +1,53 @@
+MoleculeLedger AI — Data Quality Report
+Generated: 2026-10-20
+
+1) Product List source
+Input file: Product List_20_10_2026 @ 22_57_57.csv
+Rows: 2439
+Columns in source: Sr No, Drug Code, Generic Name, Unit Size, MRP, Group Name
+Missing values in original columns: 0
+Exact duplicate rows: 0
+Rows with positive MRP: 2095
+Rows with MRP equal to zero: 344
+Rows with missing/unparseable MRP: 0
+Rows with negative MRP: 0
+Rows whose generic name appears more than once: 12
+Distinct generic names involved in repeated names: 5
+
+Repeated names flagged (do not delete automatically):
+- Elastic Net Fixator Bandage
+- L-Ornithine L-Aspartate 150mg and Pancreatin 100mg Tablets
+- Lactulose Solution IP 10g per 15ml
+- Povidone Iodine Ointment 5% w/w
+- Silver Sulphadiazine 1% w/w, Chlorhexidine Gluconate 0.2% w/w, Allantoin 0.1% w/w, Aloe vera 15% w/w Cream
+
+Cleaning decisions:
+- Original source files were not modified.
+- All 2439 product rows were retained in generic_products_clean.csv.
+- Price values were preserved in mrp_inr_as_listed.
+- Rows with MRP <= 0 or missing/unparseable MRP are flagged and marked unusable for price comparison.
+- Repeated generic names are flagged, not removed; different pack sizes or formulations may be valid distinct products.
+- Source verification status is explicitly marked as requiring confirmation against the original official catalogue.
+
+2) All Drugs Ceiling Prices source
+Input file: All Drugs Ceiling Prices.csv
+Parsed data rows: 915
+Output columns: serial_number, nlem_version, formulation, dosage_strength, so_number, so_date, ceiling_price_inr_per_stated_unit, stated_unit, ceiling_price_raw, price_type, source_date_as_file_metadata, source_file, matching_status
+Rows with parsed numeric ceiling price: 915
+Rows with missing/unparseable numeric ceiling price: 0
+
+Cleaning decisions:
+- Metadata rows before the actual table header were excluded.
+- Multi-line quoted cells were parsed as CSV data, preserving the full formulation/strength fields.
+- The ceiling price and stated unit were extracted into separate columns; original ceiling_price_raw was retained.
+- Price type is labelled ceiling_price_excluding_taxes.
+- File metadata states date 20/10/2026; this was not independently verified.
+- These prices are for reference only and must not be treated as actual branded retail prices.
+- Do not merge the datasets automatically or calculate savings until product attributes, units, pack quantities, and price types are verified.
+
+Recommended next steps:
+1. Confirm the official source URL and effective date for the Product List.
+2. Investigate zero-MRP records; keep them out of price comparisons until resolved.
+3. Review repeated-name records by drug code, unit size, and product details.
+4. Obtain a separate reliable branded-product/retail-price source for genuine branded-versus-generic comparison.
+5. Create a small manually verified benchmark set before enabling savings claims.
