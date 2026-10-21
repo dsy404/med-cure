@@ -88,7 +88,7 @@ export function App() {
       .then((data) => setHealthData(data))
       .catch((err) => console.warn('Backend health check error:', err));
 
-    const storedRxId = localStorage.getItem('medledger_prescription_id');
+    const storedRxId = localStorage.getItem('medwise_prescription_id') || localStorage.getItem('medledger_prescription_id');
     if (storedRxId) {
       getPrescription(storedRxId)
         .then((rx) => setPrescription(rx))
@@ -96,13 +96,13 @@ export function App() {
           // If stored id expired or invalid, create new
           createPrescription('My Prescription').then((newRx) => {
             setPrescription(newRx);
-            localStorage.setItem('medledger_prescription_id', newRx.prescription_id);
+            localStorage.setItem('medwise_prescription_id', newRx.prescription_id);
           });
         });
     } else {
       createPrescription('My Prescription').then((newRx) => {
         setPrescription(newRx);
-        localStorage.setItem('medledger_prescription_id', newRx.prescription_id);
+        localStorage.setItem('medwise_prescription_id', newRx.prescription_id);
       });
     }
   }, []);
@@ -235,7 +235,7 @@ export function App() {
             </div>
             <div>
               <div className="brand-title">
-                MedLedger
+                MedWise
                 <span className="brand-badge">India Edition</span>
               </div>
             </div>
@@ -712,7 +712,7 @@ export function App() {
       <footer className="footer-bar">
         <div className="footer-inner">
           <div>
-            <strong style={{ color: 'var(--text-secondary)' }}>MedLedger</strong> — Every medicine match. Every price. Every claim backed by evidence.
+            <strong style={{ color: 'var(--text-secondary)' }}>MedWise</strong> — Every medicine match. Every price. Every claim backed by evidence.
           </div>
           <div style={{ fontSize: '0.78rem' }}>
             Datasets: Jan Aushadhi (PMBJP 2026) • NPPA (DPCO 2013) • Rajya Sabha Session 255 • PMBI Kendra Network

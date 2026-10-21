@@ -4,7 +4,7 @@ from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "MedLedger"
+    PROJECT_NAME: str = "MedWise"
     TAGLINE: str = "Every medicine match. Every price. Every claim backed by evidence."
     VERSION: str = "2.0.0"
     API_V1_STR: str = "/api"

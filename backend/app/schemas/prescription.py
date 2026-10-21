@@ -77,7 +77,7 @@ class PrescriptionResponse(BaseModel):
     items: List[PrescriptionItem] = Field(default_factory=list)
     summary: PrescriptionSummary
     disclaimer: str = (
-        "MedLedger prescription price calculations are informational comparisons based on public DPCO "
+        "MedWise prescription price calculations are informational comparisons based on public DPCO "
         "and PMBJP datasets. They do not constitute an order, prescription, or clinical substitution directive. "
         "Consult your licensed physician or pharmacist before changing any prescribed medication."
     )

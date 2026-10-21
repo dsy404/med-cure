@@ -48,5 +48,5 @@ class EvidenceGraphResponse(BaseModel):
     price_evidence: Optional[PriceEvidence] = None
     savings: SavingsBreakdown
     decision: DecisionNode
-    software_version: str = "MedLedger v2.0.0"
+    software_version: str = "MedWise v2.0.0"
     clinical_disclaimer: str

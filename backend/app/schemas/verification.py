@@ -52,7 +52,7 @@ class VerificationResult(BaseModel):
     comparison_price_evidence: Optional[PriceEvidence] = None
     savings: SavingsBreakdown
     clinical_disclaimer: str = (
-        "MedLedger provides medicine catalogue and price-comparison information. "
+        "MedWise provides medicine catalogue and price-comparison information. "
         "It does not diagnose conditions, prescribe treatment, confirm medicine authenticity, "
         "or determine whether a medicine is suitable for an individual. "
         "Discuss possible medicine changes with a qualified pharmacist or prescriber."

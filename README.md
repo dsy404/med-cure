@@ -1,4 +1,4 @@
-# MedLedger 🩺
+# MedWise 🩺
 
 ### Evidence-First Medicine Savings Intelligence & Clinical Verification Platform
 
@@ -15,7 +15,7 @@
 
 ---
 
-## 🌟 Why MedLedger?
+## 🌟 Why MedWise?
 
 In India, **out-of-pocket pharmaceutical expenditure accounts for over 50% of direct healthcare costs**, driving millions of families into financial distress each year. While affordable generic medicines exist through government initiatives like the **Pradhan Mantri Bhartiya Janaushadhi Pariyojana (PMBJP)**, patients and doctors face major hurdles:
 
@@ -23,7 +23,7 @@ In India, **out-of-pocket pharmaceutical expenditure accounts for over 50% of di
 2. **Clinical Substitution Risk**: Substituting medicines based on loose name matching without verifying salt composition, active strength, and release profile can be dangerous.
 3. **The "Hallucinating AI" Trap**: Large language models often hallucinate nonexistent drug combinations, invent prices, or give medical advice without verifiable provenance.
 
-**MedLedger solves this through deterministic, evidence-backed software.** It operates strictly on verified government datasets, enforces rigorous clinical verification rules, and maintains an immutable **Medicine Evidence Graph** for every recommendation.
+**MedWise solves this through deterministic, evidence-backed software.** It operates strictly on verified government datasets, enforces rigorous clinical verification rules, and maintains an immutable **Medicine Evidence Graph** for every recommendation.
 
 ---
 
@@ -117,7 +117,7 @@ All datasets reside in the [`data/`](data/) directory and represent verified Ind
 
 ## 🚀 Quickstart: Local Installation Guide
 
-Anyone can clone and run MedLedger locally in under 5 minutes.
+Anyone can clone and run MedWise locally in under 5 minutes.
 
 ### Prerequisites
 
@@ -181,7 +181,7 @@ Open your browser and visit **`http://localhost:5173`**! 🎉
 
 ## 🧪 Running Automated Tests
 
-MedLedger features a 100% passing test suite with 46 automated tests across 8 test suites:
+MedWise features a 100% passing test suite with 46 automated tests across 8 test suites:
 
 ```bash
 # From project root with virtual environment activated:
@@ -203,14 +203,14 @@ python -m pytest -v
 
 ## 🤖 Local AI / Gemma Setup (Optional)
 
-MedLedger is designed to work **100% offline and deterministically** without AI. However, for natural language interpretation of messy search queries, you can optionally connect a local Gemma model:
+MedWise is designed to work **100% offline and deterministically** without AI. However, for natural language interpretation of messy search queries, you can optionally connect a local Gemma model:
 
 1. Download and install [Ollama](https://ollama.com/).
 2. Pull the lightweight open-weight model:
    ```bash
    ollama pull gemma2:2b
    ```
-3. Start the Ollama daemon (`ollama serve`). MedLedger will automatically detect it on `http://localhost:11434` and use it for query normalization, safely falling back to deterministic extraction if Ollama is unavailable.
+3. Start the Ollama daemon (`ollama serve`). MedWise will automatically detect it on `http://localhost:11434` and use it for query normalization, safely falling back to deterministic extraction if Ollama is unavailable.
 
 ---
 
@@ -252,7 +252,7 @@ We actively participate in **Hacktoberfest** and welcome contributions from the 
 
 ## ⚠️ Clinical & Legal Disclaimer
 
-> **MedLedger is an informational price transparency tool designed to promote pharmaceutical affordability in India. It does NOT provide medical advice, diagnosis, treatment, or clinical substitution approval.**
+> **MedWise is an informational price transparency tool designed to promote pharmaceutical affordability in India. It does NOT provide medical advice, diagnosis, treatment, or clinical substitution approval.**
 
 - Generic medicine substitution must always be evaluated and approved by a qualified registered medical practitioner (RMP) or licensed retail pharmacist.
 - Jan Aushadhi Kendra stock availability must be verified directly with the dispensing pharmacy before traveling.
@@ -261,6 +261,6 @@ We actively participate in **Hacktoberfest** and welcome contributions from the 
 
 ## 📄 License
 
-MedLedger is open-source software licensed under the **[MIT License](LICENSE)** (an OSI-approved permissive license).
+MedWise is open-source software licensed under the **[MIT License](LICENSE)** (an OSI-approved permissive license).
 
-Copyright (c) 2026 deeps0408 & MedLedger Contributors.
+Copyright (c) 2026 deeps0408 & MedWise Contributors.

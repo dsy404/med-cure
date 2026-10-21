@@ -112,7 +112,7 @@ class EvidenceGraphService:
             price_evidence=verification.comparison_price_evidence or verification.reference_price_evidence,
             savings=verification.savings,
             decision=decision_node,
-            software_version=f"MedLedger v{settings.VERSION}",
+            software_version=f"MedWise v{settings.VERSION}",
             clinical_disclaimer=verification.clinical_disclaimer
         )
 

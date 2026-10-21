@@ -432,7 +432,7 @@ export const PrescriptionStudioView: FC<PrescriptionStudioViewProps> = ({
 
       {/* Mandatory Pharmacist & Clinical Notice */}
       <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 'var(--radius-lg)', padding: '1rem', fontSize: '0.78rem', color: '#475569', lineHeight: '1.4' }}>
-        <b>Notice for Pharmacists and Prescribers:</b> MedLedger price difference assessments are calculated deterministically against official Jan Aushadhi (PMBJP) pricing schedules and NPPA DPCO statutory price caps. Unresolved items (missing strengths, combination drugs, or unlisted prices) are strictly quarantined from confirmed savings to guarantee transparency. Generic substitutions must always be evaluated and approved by a licensed medical practitioner or registered pharmacist.
+        <b>Notice for Pharmacists and Prescribers:</b> MedWise price difference assessments are calculated deterministically against official Jan Aushadhi (PMBJP) pricing schedules and NPPA DPCO statutory price caps. Unresolved items (missing strengths, combination drugs, or unlisted prices) are strictly quarantined from confirmed savings to guarantee transparency. Generic substitutions must always be evaluated and approved by a licensed medical practitioner or registered pharmacist.
       </div>
     </div>
   );

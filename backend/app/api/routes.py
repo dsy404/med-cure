@@ -404,7 +404,7 @@ def download_prescription_pdf(
         raise HTTPException(status_code=404, detail=f"Prescription '{rx_id}' not found.")
 
     pdf_bytes = PDFReportService.generate_prescription_report(rx)
-    filename = f"MedLedger_Prescription_{rx_id}.pdf"
+    filename = f"MedWise_Prescription_{rx_id}.pdf"
 
     return Response(
         content=pdf_bytes,

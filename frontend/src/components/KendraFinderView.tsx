@@ -105,7 +105,7 @@ export const KendraFinderView: FC = () => {
             CRITICAL STOCK NOTICE: Inventory Not Verified Live
           </div>
           <div style={{ fontSize: '0.8rem', color: '#78350f', lineHeight: '1.4' }}>
-            {stockDisclaimer || 'Stock availability has not been verified. MedLedger validates official Kendra registry locations, but individual store inventory fluctuates daily. Always call the Kendra by phone before traveling.'}
+            {stockDisclaimer || 'Stock availability has not been verified. MedWise validates official Kendra registry locations, but individual store inventory fluctuates daily. Always call the Kendra by phone before traveling.'}
           </div>
         </div>
       </div>

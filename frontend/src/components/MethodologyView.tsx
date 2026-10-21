@@ -9,7 +9,7 @@ export const MethodologyView: FC = () => {
           Methodology & Architectural Principles
         </h2>
         <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-          MoleculeLedger AI was engineered to solve the trust deficit in medicine search: replacing black-box AI chatbots with deterministic clinical verification, traceable price records, and explicit uncertainty handling.
+          MedWise was engineered to solve the trust deficit in medicine search: replacing black-box AI chatbots with deterministic clinical verification, traceable price records, and explicit uncertainty handling.
         </p>
       </div>
 
@@ -99,7 +99,7 @@ export const MethodologyView: FC = () => {
             </h3>
           </div>
           <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-            Every price displayed on MoleculeLedger AI is traceable to official government records:
+            Every price displayed on MedWise is traceable to official government records:
           </p>
           <ul style={{ marginTop: '0.75rem', marginLeft: '1.5rem', fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.8 }}>
             <li><strong>Jan Aushadhi Generic Medicines (PMBJP):</strong> 2,439 products with verified listed MRPs. 344 zero-MRP rows are explicitly quarantined from price calculations.</li>
@@ -111,7 +111,7 @@ export const MethodologyView: FC = () => {
 
       {/* Safety Notice Banner */}
       <div className="safety-alert" style={{ marginBottom: '3rem' }}>
-        <strong>Clinical & Regulatory Disclaimer:</strong> MoleculeLedger AI provides medicine price transparency and catalogue comparison tools only. It does not provide medical diagnosis, treatment advice, or prescription substitution authorization. Always consult a qualified registered medical practitioner or pharmacist before altering any medication regimen.
+        <strong>Clinical & Regulatory Disclaimer:</strong> MedWise provides medicine price transparency and catalogue comparison tools only. It does not provide medical diagnosis, treatment advice, or prescription substitution authorization. Always consult a qualified registered medical practitioner or pharmacist before altering any medication regimen.
       </div>
     </div>
   );

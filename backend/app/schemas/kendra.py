@@ -29,7 +29,7 @@ class KendraSearchResponse(BaseModel):
     kendras: List[JanAushadhiKendra] = Field(default_factory=list)
     stock_verification_disclaimer: str = (
         "CRITICAL NOTICE: Stock availability has not been verified. "
-        "MedLedger verifies official Kendra registry locations, but individual store inventory "
+        "MedWise verifies official Kendra registry locations, but individual store inventory "
         "fluctuates daily. Always contact the Kendra directly by telephone before visiting."
     )
 

@@ -1,6 +1,6 @@
-# Contributing to MedLedger
+# Contributing to MedWise
 
-First off, thank you for considering contributing to **MedLedger**! 🩺✨
+First off, thank you for considering contributing to **MedWise**! 🩺✨
 
 Whether you are fixing a bug, expanding pharmaceutical datasets, adding tests, or refining accessibility for patients and pharmacists, your contributions directly advance healthcare affordability and price transparency in India.
 
@@ -29,7 +29,7 @@ This project is actively participating in **Hacktoberfest** 🎃. We welcome con
 
 ## Code of Conduct
 
-MedLedger adheres to the [Contributor Covenant](https://www.contributor-covenant.org/) Code of Conduct. By participating in this project, you agree to treat all community members with empathy, respect, and constructive collaboration. Harassment, discrimination, or derogatory comments will not be tolerated.
+MedWise adheres to the [Contributor Covenant](https://www.contributor-covenant.org/) Code of Conduct. By participating in this project, you agree to treat all community members with empathy, respect, and constructive collaboration. Harassment, discrimination, or derogatory comments will not be tolerated.
 
 ---
 
@@ -50,7 +50,7 @@ We love Hacktoberfest, but **we value meaningful, quality contributions over qua
 
 ## Ways to Contribute
 
-Here are high-impact areas where MedLedger needs community contributions:
+Here are high-impact areas where MedWise needs community contributions:
 
 ### 1. Expand Verified Brand Aliases 💊
 - **File:** [`backend/app/services/brand_aliases.py`](backend/app/services/brand_aliases.py)
