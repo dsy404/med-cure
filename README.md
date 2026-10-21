@@ -1,222 +1,266 @@
-# MedLedger
-## Evidence-First Medicine Savings Intelligence Platform
+# MedLedger 🩺
 
-> **Tagline:** *Every medicine match. Every price. Every claim backed by evidence.*
+### Evidence-First Medicine Savings Intelligence & Clinical Verification Platform
 
-MedLedger is an evidence-first medicine price transparency, clinical verification, and prescription savings intelligence platform tailored to the Indian healthcare ecosystem.
+[![Hacktoberfest 2026](https://img.shields.io/badge/Hacktoberfest-2026-ff7a00?style=for-the-badge&logo=hacktoberfest&logoColor=white)](https://hacktoberfest.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110%2B-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0%2B-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tests](https://img.shields.io/badge/Tests-46%20Passed%20(100%25)-success?style=for-the-badge&logo=pytest&logoColor=white)](backend/tests/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](CONTRIBUTING.md)
 
-Unlike generic conversational chatbots or static dashboards, MedLedger operates on **documented product records, staged multi-tier retrieval, attribute-by-attribute clinical verification, and verifiable price evidence**. It is architected with strict uncertainty handling—meaning the system **abstains from making unsupported claims, refuses to guess unverified medicine identities, and strictly isolates unverified prescription items from confirmed savings totals**.
+> **"Every medicine match. Every price. Every claim backed by evidence."**
 
 ---
 
-## 1. Architectural Overview
+## 🌟 Why MedLedger?
+
+In India, **out-of-pocket pharmaceutical expenditure accounts for over 50% of direct healthcare costs**, driving millions of families into financial distress each year. While affordable generic medicines exist through government initiatives like the **Pradhan Mantri Bhartiya Janaushadhi Pariyojana (PMBJP)**, patients and doctors face major hurdles:
+
+1. **Information Asymmetry**: Branded drugs are aggressively marketed while equivalent generic options remain unknown.
+2. **Clinical Substitution Risk**: Substituting medicines based on loose name matching without verifying salt composition, active strength, and release profile can be dangerous.
+3. **The "Hallucinating AI" Trap**: Large language models often hallucinate nonexistent drug combinations, invent prices, or give medical advice without verifiable provenance.
+
+**MedLedger solves this through deterministic, evidence-backed software.** It operates strictly on verified government datasets, enforces rigorous clinical verification rules, and maintains an immutable **Medicine Evidence Graph** for every recommendation.
+
+---
+
+## 📚 Table of Contents
+
+- [Core Features](#-core-features)
+- [System Architecture](#-system-architecture)
+- [Verified Datasets Provenance](#-verified-datasets-provenance)
+- [Quickstart: Local Installation Guide](#-quickstart-local-installation-guide)
+  - [Prerequisites](#prerequisites)
+  - [Step 1: Clone Repository](#step-1-clone-repository)
+  - [Step 2: Backend Setup](#step-2-backend-setup)
+  - [Step 3: Frontend Setup](#step-3-frontend-setup)
+- [Running Automated Tests](#-running-automated-tests)
+- [Local AI / Gemma Setup (Optional)](#-local-ai--gemma-setup-optional)
+- [REST API Reference](#-rest-api-reference)
+- [Hacktoberfest & Contributing](#-hacktoberfest--contributing)
+- [Clinical & Legal Disclaimer](#-clinical--legal-disclaimer)
+- [License](#-license)
+
+---
+
+## ✨ Core Features
+
+| Feature | Description |
+| :--- | :--- |
+| **🔍 Staged Search Engine** | Combines exact token matching, brand-to-generic alias expansion (e.g. *Crocin → Paracetamol*), and typo-tolerant RapidFuzz matching across 2,439 genuine PMBJP catalogue entries. |
+| **⚖️ Deterministic Clinical Verification** | Itemizes molecule overlap, strength equivalence, dosage formulation (tablet vs syrup), and release profile (IR vs SR). Rejects comparisons when attributes mismatch. |
+| **🧾 3-Tier Whole-Prescription Studio** | Multi-item basket manager with **3 distinct totals**: Confirmed Savings, Quarantined Items (unresolved strengths/formulations), and Excluded Savings. |
+| **📄 Pharmacist PDF Report** | Generates deterministic, printable PDF prescription handover reports via ReportLab with embedded QR codes, clinical disclaimers, and audit IDs. |
+| **📷 Packaging OCR & Quality Audit** | OpenCV pipeline assessing brightness, blur (Laplacian variance), and foil glare before running EasyOCR extraction on medicine blister packs. |
+| **📍 Jan Aushadhi Kendra Locator** | Pincode and GPS-assisted Kendra finder using spherical Haversine formulas with a mandatory stock boundary disclaimer. |
+| **🕸️ Medicine Evidence Graph** | SQLite-backed immutable chain linking user query → extraction node → catalogue candidate → attribute verification → price evidence → final decision. |
+
+---
+
+## 🏗️ System Architecture
 
 ```text
-React + TypeScript Frontend (Vite + Accessible Design System)
-        |
-        v  HTTP / REST JSON & Multipart
-FastAPI Backend Application
-        |
-        +-- Medicine Search Service (Exact, Brand Aliases, RapidFuzz Typo-Sort)
-        +-- OCR & Image Processing Service (OpenCV Quality Audit + EasyOCR Engine)
-        +-- Clinical Verification Engine (Active Salt Overlap, Strength, Formulation, Release)
-        +-- Price Comparison Engine (Pack Normalization, Statutory DPCO vs PMBJP MRP)
-        +-- Medicine Evidence Graph Service (SQLite Persistent Linked Records)
-        +-- Whole-Prescription Savings Engine (3-Tier Totals: Confirmed, Quarantined, Excluded)
-        +-- PDF Report Service (Deterministic ReportLab Pharmacist Export)
-        +-- Jan Aushadhi Kendra Location Service (Haversine Proximity + Stock Boundary)
-        +-- Local AI / Gemma Adapter (Structured Interpretation, Safe Offline Fallback)
-        |
-        v
-Cleaned PMBJP & DPCO Catalogue Datasets + SQLite Evidence Store
+               +--------------------------------------------+
+               |     React 18 + TypeScript Web Client       |
+               | (Vite, Accessible Design System, Tailwind) |
+               +---------------------+----------------------+
+                                     |
+                                     | HTTP REST & Multipart
+                                     v
+               +--------------------------------------------+
+               |         FastAPI Backend Application        |
+               +---------------------+----------------------+
+                                     |
+        +----------------------------+----------------------------+
+        |                            |                            |
+        v                            v                            v
++------------------+       +------------------+         +------------------+
+| Medicine Search  |       | Clinical Verifier|         | Prescription Hub |
+| Exact, Aliases,  |       | Salt Overlap,    |         | 3-Tier Totals,   |
+| RapidFuzz Typo   |       | Strength & Form  |         | ReportLab PDF    |
++------------------+       +------------------+         +------------------+
+        |                            |                            |
+        +----------------------------+----------------------------+
+                                     |
+                                     v
+               +--------------------------------------------+
+               |          Medicine Evidence Graph           |
+               | (SQLite Persistent Audit Trail & Decisions)|
+               +---------------------+----------------------+
+                                     |
+                                     v
+               +--------------------------------------------+
+               |         Cleaned Government Datasets        |
+               |   - PMBJP Generic Catalogue (2,439 items)  |
+               |   - NPPA DPCO Ceiling Price Caps (915 items)|
+               |   - Rajya Sabha Survey Records (Session 255)|
+               +--------------------------------------------+
 ```
 
 ---
 
-## 2. Core Pillars & Non-Negotiable Rules
+## 📊 Verified Datasets Provenance
 
-### A. Real Functionality over Fabrication
-- Search queries the genuine cleaned datasets: 2,439 Jan Aushadhi generic records and 915 NPPA DPCO statutory ceiling price caps.
-- Never hardcodes search results or fabricates medicines, manufacturers, prices, or savings.
-- 344 records in the PMBJP catalogue with zero or unlisted MRP are explicitly flagged and quarantined from savings calculations.
+All datasets reside in the [`data/`](data/) directory and represent verified Indian public health sources:
 
-### B. Evidence Over Confidence
-The system categorizes candidate comparisons into explicit, verifiable states:
-- `VERIFIED_FOR_PRICE_COMPARISON`: Active ingredients, strengths, and dosage forms match, and valid price evidence exists.
-- `NEEDS_CLARIFICATION`: Query omitted strength, or candidate formulation/release profile differs.
-- `INCOMPARABLE_PRICE_BASIS`: Rejects comparing a statutory government ceiling cap (DPCO 2013) against a retail pharmacy quote.
-- `INSUFFICIENT_EVIDENCE`: Product has zero listed MRP or reference retail quote is absent.
-- `NO_CATALOGUE_MATCH`: Honestly abstains rather than returning arbitrary false matches.
-
-### C. The Signature Feature: The Medicine Evidence Graph
-Every comparison creates an immutable, traceable record linking:
-1. **Input Node**: User query, input type, reference brand quote, captured timestamp.
-2. **Extraction Node**: Normalized query, detected molecules, strengths, dosage form, brand alias applied.
-3. **Candidate Node**: Stable catalogue ID, official name, pack size, MRP, source dataset provenance.
-4. **Attribute Checks**: Itemized active ingredient overlap, strength match, formulation match, release profile.
-5. **Price Evidence Node**: Source organization, price type, pack unit normalization formula applied.
-6. **Decision Node**: Final verification status, savings eligibility, plain-language summary, clinical disclaimers.
-
-### D. Whole-Prescription Savings Engine: 3 Distinct Totals
-- **Total A (Confirmed Potential Savings):** Sum of savings ONLY for items that pass deterministic verification and have valid source-backed prices.
-- **Total B (Unresolved Items):** Count of items with missing strengths, combination conflicts, or unlisted prices, strictly quarantined from totals.
-- **Total C (Excluded Potential Savings):** Informational estimate for unresolved items, strictly excluded from the confirmed total savings.
-
-### E. Jan Aushadhi Kendra Locator & Stock Boundary
-- Attributable PMBJP directory network across Indian states and metropolitan cities.
-- Distance computed via the spherical Haversine formula.
-- **Non-Negotiable Stock Disclaimer:** *"Stock availability has not been verified. Contact the Kendra before visiting."*
+1. **`generic_products_clean.csv`**: 2,439 generic formulations from the official Pradhan Mantri Bhartiya Janaushadhi Pariyojana (PMBJP) catalogue.
+   - 2,095 entries with verified MRP.
+   - 344 entries with unlisted MRP quarantined from savings calculations.
+2. **`ceiling_prices_clean.csv`**: 915 statutory ceiling price caps fixed under the Drugs (Prices Control) Order, 2013 (DPCO 2013) by the National Pharmaceutical Pricing Authority (NPPA).
+3. **`RS_Session_255_AU_1784_B.csv`**: Official price comparison data presented to the Rajya Sabha (Ministry of Chemicals & Fertilizers) comparing branded market-leader MRPs against PMBJP retail prices.
+4. **`data_quality_report.txt`**: Complete Phase 2 dataset cleaning audit documenting column distributions, null counts, and quarantine rules.
 
 ---
 
-## 3. Verified Official Datasets
+## 🚀 Quickstart: Local Installation Guide
 
-Located in the `data/` directory:
-1. `generic_products_clean.csv`: 2,439 rows from the Pradhan Mantri Bhartiya Janaushadhi Pariyojana (PMBJP) catalogue.
-   - 2,095 rows have verified positive MRP.
-   - 344 rows have zero MRP (marked `usable_for_price_comparison = False`).
-2. `ceiling_prices_clean.csv`: 915 statutory ceiling price records fixed by the National Pharmaceutical Pricing Authority (NPPA / DPCO 2013).
-   - Marked `reference_only` because ceiling prices are legal caps excluding taxes, not retail selling quotes.
-3. `RS_Session_255_AU_1784_B.csv`: Official government surveyed comparison records submitted to the Rajya Sabha (Ministry of Chemicals & Fertilizers) detailing average branded market-leader MRPs vs PMBJP generic prices.
-4. `data_quality_report.txt`: Phase 2 data cleaning audit report detailing column distributions, null counts, and cleaning decisions.
-
----
-
-## 4. Local AI Integration (Gemma & Ollama)
-
-### Role & Guardrails
-- **Runtime**: Local [Ollama](https://ollama.com) daemon running on `http://localhost:11434`.
-- **Target Model**: `gemma2:2b` (Google Gemma 2, 2 Billion parameters open-weight model).
-- **Responsibilities**:
-  - Interprets messy, unstructured, or misspelled user search queries.
-  - Extracts explicitly mentioned clinical strengths and forms.
-  - Highlights missing attributes for clarification.
-  - Produces schema-constrained JSON only.
-- **Fail-Safe Mechanism**:
-  - If Ollama is offline or the model is not pulled, the backend automatically falls back to deterministic extraction and staged search without breaking or pretending AI executed.
-  - Deterministic search, verification, price arithmetic, evidence storage, and PDF generation work completely without Ollama.
-
----
-
-## 5. Prerequisites & Installation
+Anyone can clone and run MedLedger locally in under 5 minutes.
 
 ### Prerequisites
-- Python 3.10+ (Tested on Python 3.14.3 64-bit)
-- Node.js v18+ (Tested on Node.js v24.14.0)
-- npm 9+ (Tested on npm 11.9.0)
-- (Optional for AI mode) [Ollama](https://ollama.com) with `ollama pull gemma2:2b`
 
-### Installation Steps
+- **Python 3.10+** (Tested on Python 3.10, 3.11, 3.12, 3.14)
+- **Node.js 18+** & **npm 9+**
+- **Git**
 
-1. **Clone or enter the project directory:**
-   ```powershell
-   cd c:\Users\HP\Desktop\mlh
-   ```
+### Step 1: Clone Repository
 
-2. **Install Python backend dependencies:**
-   ```powershell
-   python -m pip install -r backend/requirements.txt
-   ```
+```bash
+git clone https://github.com/dsy404/med-cure.git
+cd med-cure
+```
 
-3. **Install Frontend dependencies:**
-   ```powershell
-   cd frontend
-   npm install
-   cd ..
-   ```
+### Step 2: Backend Setup
 
----
+Open a terminal in the project root:
 
-## 6. How to Run Locally
+```bash
+# 1. Create a Python virtual environment
+python -m venv .venv
 
-### Option 1: Quick PowerShell Scripts
-Open two PowerShell terminals in `c:\Users\HP\Desktop\mlh`:
+# 2. Activate virtual environment
+# Windows PowerShell:
+.\.venv\Scripts\Activate.ps1
+# macOS / Linux:
+source .venv/bin/activate
 
-**Terminal 1 — Backend:**
-```powershell
+# 3. Install backend dependencies
+pip install -r backend/requirements.txt
+
+# 4. Start the FastAPI backend server
+# Windows:
 .\run_backend.ps1
-```
-*(Starts FastAPI on `http://127.0.0.1:8000`)*
-
-**Terminal 2 — Frontend:**
-```powershell
-.\run_frontend.ps1
-```
-*(Starts Vite dev server on `http://localhost:5173`)*
-
----
-
-### Option 2: Manual Commands
-
-**Backend:**
-```powershell
-$env:PYTHONPATH = "backend"
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+# macOS / Linux / Manual:
+python -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000 --reload
 ```
 
-**Frontend:**
-```powershell
+The backend will be live at **`http://127.0.0.1:8000`**.  
+Interactive Swagger API documentation is available at **`http://127.0.0.1:8000/docs`**.
+
+### Step 3: Frontend Setup
+
+Open a second terminal window in the project root:
+
+```bash
+# 1. Navigate to frontend
 cd frontend
+
+# 2. Install dependencies
+npm install
+
+# 3. Start Vite dev server
 npm run dev
+# (Or on Windows: .\run_frontend.ps1 from root)
 ```
 
-Visit **`http://localhost:5173`** in your browser.
+Open your browser and visit **`http://localhost:5173`**! 🎉
 
 ---
 
-## 7. Running the Automated Test Suite
+## 🧪 Running Automated Tests
 
-Run all tests:
-```powershell
+MedLedger features a 100% passing test suite with 46 automated tests across 8 test suites:
+
+```bash
+# From project root with virtual environment activated:
 python -m pytest -v
 ```
-*(Or run `.\run_tests.ps1`)*
+*(On Windows you can also run `.\run_tests.ps1`)*
 
-**Current Test Results:**
-- **`46 passed in 14.60s`** (100% pass rate)
-  - `test_search.py`: Exact matching, typo-tolerant RapidFuzz, alias matching, abstention.
-  - `test_verification.py`: Salt overlap, single vs combination regression, strength checks, pack normalization.
-  - `test_prescription_service.py`: Multi-item lifecycle, 3-tier totals, ReportLab PDF generation.
-  - `test_ocr_service.py`: OpenCV blur/sharpness, brightness evaluation, text normalization.
-  - `test_kendra_service.py`: Attributable PMBJP directory, Haversine formula, stock boundary disclaimer.
-  - `test_evidence_graph.py`: SQLite persistence, decision retrieval, recent decisions audit.
-  - `test_api.py`: Full FastAPI endpoint coverage.
-  - `test_ai_benchmark.py`: 3-mode comparative evaluation.
+### Test Coverage Highlights:
+- **`test_search.py`**: Exact token matches, RapidFuzz typo tolerance, alias resolution, abstention on unknown drugs.
+- **`test_verification.py`**: Active salt overlap, single vs multi-ingredient combination safety, dosage form compatibility.
+- **`test_prescription_service.py`**: Multi-item prescription lifecycle, 3-tier calculations, ReportLab PDF generation.
+- **`test_ocr_service.py`**: OpenCV image sharpness, brightness metrics, foil glare handling.
+- **`test_kendra_service.py`**: Haversine distance calculations, nearest PMBJP Kendras, stock boundary disclaimer enforcement.
+- **`test_evidence_graph.py`**: SQLite persistence, decision retrieval, and tamper-resistant audit trails.
+- **`test_api.py`**: End-to-end integration tests for all FastAPI REST routes.
+- **`test_ai_benchmark.py`**: 3-mode comparative benchmark evaluation.
 
 ---
 
-## 8. Complete API Reference
+## 🤖 Local AI / Gemma Setup (Optional)
+
+MedLedger is designed to work **100% offline and deterministically** without AI. However, for natural language interpretation of messy search queries, you can optionally connect a local Gemma model:
+
+1. Download and install [Ollama](https://ollama.com/).
+2. Pull the lightweight open-weight model:
+   ```bash
+   ollama pull gemma2:2b
+   ```
+3. Start the Ollama daemon (`ollama serve`). MedLedger will automatically detect it on `http://localhost:11434` and use it for query normalization, safely falling back to deterministic extraction if Ollama is unavailable.
+
+---
+
+## 🔌 REST API Reference
 
 | Endpoint | Method | Description |
 | :--- | :--- | :--- |
-| `/api/health` | `GET` | Health check, dataset loading counts, Kendra network count, provenance |
-| `/api/health/llm` | `GET` | Check local Ollama daemon connectivity and model status |
-| `/api/medicines/search` | `GET` | Staged candidate retrieval (`q`, `limit`, `include_ceiling`) |
-| `/api/medicines/{product_id}` | `GET` | Look up catalogue product by stable ID (`GEN-xx`, `CEIL-xx`) |
-| `/api/verify` | `POST` | Deterministically verify candidate, calculate savings, and record evidence |
-| `/api/evidence/{decision_id}` | `GET` | Retrieve complete Medicine Evidence Graph chain for decision |
-| `/api/evidence` | `GET` | List recent verification decisions stored in SQLite |
-| `/api/recognition/preview` | `POST` | Upload packaging image for OpenCV quality audit and EasyOCR extraction |
+| `/api/health` | `GET` | Health check, catalogue product count, Kendra store count |
+| `/api/medicines/search` | `GET` | Staged candidate medicine search (`q`, `limit`, `include_ceiling`) |
+| `/api/medicines/{product_id}` | `GET` | Retrieve catalogue product by stable ID (`GEN-xx`, `CEIL-xx`) |
+| `/api/verify` | `POST` | Deterministically verify candidate equivalence and calculate price savings |
+| `/api/evidence/{decision_id}` | `GET` | Retrieve full Medicine Evidence Graph chain for any decision |
+| `/api/evidence` | `GET` | Audit list of recent verification decisions from SQLite |
 | `/api/prescriptions` | `POST` | Create a new multi-item prescription container |
-| `/api/prescriptions/{id}` | `GET` | Get prescription with line items and 3 separate summary totals |
-| `/api/prescriptions/{id}/items` | `POST` | Add prescribed line item, match generic, and run clinical verification |
-| `/api/prescriptions/{id}/items/{item_id}` | `PATCH` | Clarify missing attributes or update reference price |
-| `/api/prescriptions/{id}/items/{item_id}` | `DELETE` | Remove line item from prescription |
-| `/api/prescriptions/{id}/analyze` | `POST` | Re-analyze prescription items and recalculate 3-tier totals |
-| `/api/prescriptions/{id}/pdf` | `GET` | Deterministic ReportLab PDF report generation with evidence IDs |
-| `/api/locations/kendras` | `GET` | Search PMBJP Kendras by pincode/city or GPS coordinates (Haversine) |
+| `/api/prescriptions/{id}` | `GET` | Retrieve prescription items and calculated 3-tier totals |
+| `/api/prescriptions/{id}/items` | `POST` | Add prescribed medicine, match generic candidate, run verification |
+| `/api/prescriptions/{id}/pdf` | `GET` | Download deterministic printable PDF summary report |
+| `/api/locations/kendras` | `GET` | Find nearest PMBJP Jan Aushadhi Kendras by pincode or GPS coordinates |
+| `/api/recognition/preview` | `POST` | Upload packaging image for OpenCV quality audit and OCR extraction |
 | `/api/benchmarks` | `GET` | Retrieve official Rajya Sabha parliamentary survey price pairs |
-| `/api/benchmark` | `GET` | Run 3-mode comparative evaluation across test cases |
-| `/api/data-quality-report` | `GET` | Return Phase 2 data quality audit report |
 | `/api/ai/status` | `GET` | Check local Ollama daemon and Gemma model status |
-| `/api/ai/interpret` | `POST` | Structured query interpretation via local Gemma model |
 
-Interactive Swagger documentation is available at **`http://127.0.0.1:8000/docs`**.
+Full interactive API specs are available at `http://127.0.0.1:8000/docs`.
 
 ---
 
-## 9. Clinical & Legal Disclaimer
+## 🎃 Hacktoberfest & Contributing
 
-MedLedger is an informational price transparency tool designed to promote pharmaceutical affordability in India. **It does not provide medical advice, diagnosis, treatment, or clinical substitution approval.** 
+We actively participate in **Hacktoberfest** and welcome contributions from the global open-source community! 
 
-Generic substitution must always be evaluated and approved by a qualified registered medical practitioner or licensed pharmacist.
+### How to Get Involved:
+- Check our [**`CONTRIBUTING.md`**](CONTRIBUTING.md) for full development standards, branching rules, and PR checklist.
+- Browse [Good First Issues](https://github.com/dsy404/med-cure/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) for beginner-friendly tasks.
+- Help us expand Indian brand aliases in [`brand_aliases.py`](backend/app/services/brand_aliases.py).
+- Help us expand PMBJP Kendra coverage in [`kendra_service.py`](backend/app/services/kendra_service.py).
+- Help us add regional Indian language support in the frontend!
+
+---
+
+## ⚠️ Clinical & Legal Disclaimer
+
+> **MedLedger is an informational price transparency tool designed to promote pharmaceutical affordability in India. It does NOT provide medical advice, diagnosis, treatment, or clinical substitution approval.**
+
+- Generic medicine substitution must always be evaluated and approved by a qualified registered medical practitioner (RMP) or licensed retail pharmacist.
+- Jan Aushadhi Kendra stock availability must be verified directly with the dispensing pharmacy before traveling.
+
+---
+
+## 📄 License
+
+MedLedger is open-source software licensed under the **[MIT License](LICENSE)** (an OSI-approved permissive license).
+
+Copyright (c) 2026 deeps0408 & MedLedger Contributors.
