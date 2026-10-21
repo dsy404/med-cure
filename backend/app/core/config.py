@@ -21,8 +21,8 @@ class Settings(BaseSettings):
     
     # AI settings
     OLLAMA_BASE_URL: str = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-    GEMMA_MODEL_NAME: str = os.getenv("GEMMA_MODEL_NAME", "gemma2:2b")
-    OLLAMA_TIMEOUT_SECONDS: float = 8.0
+    GEMMA_MODEL_NAME: str = os.getenv("GEMMA_MODEL_NAME", "qwen2.5:1.5b")
+    OLLAMA_TIMEOUT_SECONDS: float = 20.0
     
     # CORS
     CORS_ORIGINS: list[str] = [
